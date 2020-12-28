@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using SmartScgoole.WebAPI.Data;
 
 namespace SmartScgoole.WebAPI
 {
@@ -27,6 +29,10 @@ namespace SmartScgoole.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddDbContext<SmartContext>(
+                context => context.UseSqlite(Configuration.GetConnectionString("Default"))
+            );
+                            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

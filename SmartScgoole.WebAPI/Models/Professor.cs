@@ -22,3 +22,6 @@ namespace SmartScgoole.WebAPI.Models
         public IEnumerable<Disciplina> Disciplinas { get; set; }
     }
 }
+
+
+

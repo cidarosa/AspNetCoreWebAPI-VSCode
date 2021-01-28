@@ -12,9 +12,11 @@ namespace SmartScgoole.WebAPI.Controllers
     public class AlunoController : ControllerBase
     {
         private readonly SmartContext _context;
+        public readonly IRepository _repo;
 
-        public AlunoController(SmartContext context)
+        public AlunoController(SmartContext context, IRepository repo)
         {
+            _repo = repo;
             _context = context;
         }
 
@@ -50,10 +52,17 @@ namespace SmartScgoole.WebAPI.Controllers
         [HttpPost]
         public IActionResult Post(Aluno aluno)
         {
-
+            /*
             _context.Add(aluno);
             _context.SaveChanges();
-            return Ok(aluno);
+            */
+            _repo.Add(aluno);
+            
+            if (_repo.SaveChanges())
+            {
+                return Ok(aluno);
+            }
+            return BadRequest("Aluno não cadastrado");
         }
 
         [HttpPut("{id}")]

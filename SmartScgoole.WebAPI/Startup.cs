@@ -32,6 +32,30 @@ namespace SmartScgoole.WebAPI
             services.AddDbContext<SmartContext>(
                 context => context.UseSqlite(Configuration.GetConnectionString("Default"))
             );
+
+            //injeção da  Repository - nativamente
+            //inversão de contexto INVERSION OF CONTROL - injeção de dependência
+
+            //3 formas de fazer
+            
+            //pode ter problema pq cria uma instância qdo é solicitado pela primeira vez e reutiliza essa
+            //instância em todos os locais q esse serviço é necessário
+            //services.AddSingleton<IRepository, Repository>();
+
+            //sempre gera uma nova instância pra cada item encontrado que possua tal dependência,
+            //ou seja, se hover 5 dependências serão 5 instâncias diferentes
+            //services.AddTransient<IRepository, Repository>();
+
+            //sempre utiliza este
+            
+            //diferente da Transient q garante q em cada uma requisição seja criada uma instância de uma classe
+            //onde houver outras dependências, seja utilizada essa única instância pra todas, renovando somente
+            //nas requisições subsequentes mas, mantendo essa obrigatoriedade
+
+            services.AddScoped<IRepository, Repository>();
+
+
+
                             
             services.AddControllers();
             services.AddSwaggerGen(c =>
